@@ -11,7 +11,6 @@ const NewComplaint = () => {
         const {name,value}=e.target;
         setComplaints({...complaints,[name]:value});
     }
-    // console.log(user)
 
     function submithandler(e){
         e.preventDefault();
