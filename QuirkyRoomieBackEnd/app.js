@@ -65,6 +65,11 @@ app.get('/api/complaints', async function (req, res) {
         res.send({message:'Complaints retrieved unsuccessfully!', success:false })
     })
 })
+app.get('/api/resolve', function (req, res) {
+
+    console.log(req.query.id)
+    
+})
 
 app.listen(3000)
 

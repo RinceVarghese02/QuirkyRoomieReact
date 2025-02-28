@@ -23,6 +23,7 @@ const complaintSchema=mongoose.Schema({
     severity:{
         type:String,
     },
+    createdAt: { type: Date, default: Date.now, immutable:true, }
 });
 
 const complaintModel=mongoose.model("complaints",complaintSchema)

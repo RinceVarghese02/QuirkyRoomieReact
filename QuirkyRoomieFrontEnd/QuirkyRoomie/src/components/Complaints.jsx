@@ -27,6 +27,11 @@ const Complaints = () => {
     },[])
     console.log(allcomplaints)
 
+    
+    async function resolve(id){
+           await axios.get('http://localhost:3000/api/resolve',id)
+        }
+
   return (
     <>
     <div className='w-full h-full bg-zinc-900'>
@@ -35,26 +40,27 @@ const Complaints = () => {
             <h1 className='cursor-pointer hover:text-zinc-100 active:scale-[.96]' onClick={openleaderboards}>LeaderBoards</h1>
             <button className='bg-red-500 px-4 py-2 rounded-lg active:scale-[.96]' onClick={openlogin}>Logout</button>
         </nav>
-        <div className='text-white p-7 text-2xl font-semibold'>
+        <div className='text-white p-7 text-2xl font-semibold h-full'>
             <h1 className='mb-5'>All the Active Complaints :</h1>
-            {allcomplaints.map((comp,index)=>{
+            {allcomplaints.length?<h1>{allcomplaints.map((comp,index)=>{
             
-           return <div className='bg-zinc-800 p-6 mb-7 rounded-xl'>
-                <h1>Complaint - {index+1}</h1>
-                <h1>Title:</h1>
-                <h2 className='bg-zinc-900 py-2 px-3 rounded-lg'>{comp.title}</h2>
-                <h2>Description: </h2>
-                <h2 className='bg-zinc-900 py-2 px-3 rounded-lg'>{comp.description}</h2>
-                <h2>Complaint Type (Noise, Cleanliness, Bills, Pets, etc.): </h2>
-                <h2 className='bg-zinc-900 py-2 px-3 rounded-lg'>{comp.type}</h2>
-                <h2>Severity Level (Mild, Annoying, Major, Nuclear): </h2>
-                <h2 className='bg-zinc-900 py-2 px-3 rounded-lg'>{comp.severity}</h2>
-                <h2>Timestamp: 18/02/2025 at 12am</h2>
-                <button className='bg-green-500 px-4 py-2 rounded-lg mr-4 mt-4 active:scale-[.96]'>UpVote</button>
-                <button className='bg-red-500 px-4 py-2 rounded-lg mr-4 mt-4 active:scale-[.96]'>DownVote</button>
-                <button className='bg-blue-500 px-4 py-2 rounded-lg mr-4 mt-4 active:scale-[.96]'>Resolve</button>
-            </div>
-            })}
+            return <div key={index} className='bg-zinc-800 p-6 mb-7 rounded-xl'>
+                 <h1>Complaint - {index+1}</h1>
+                 <h1>Title:</h1>
+                 <h2 className='bg-zinc-900 py-2 px-3 rounded-lg'>{comp.title}</h2>
+                 <h2>Description: </h2>
+                 <h2 className='bg-zinc-900 py-2 px-3 rounded-lg'>{comp.description}</h2>
+                 <h2>Complaint Type (Noise, Cleanliness, Bills, Pets, etc.): </h2>
+                 <h2 className='bg-zinc-900 py-2 px-3 rounded-lg'>{comp.type}</h2>
+                 <h2>Severity Level (Mild, Annoying, Major, Nuclear): </h2>
+                 <h2 className='bg-zinc-900 py-2 px-3 rounded-lg'>{comp.severity}</h2>
+                 <h2>Timestamp: {comp.createdAt}</h2>
+                 <button className='bg-green-500 px-4 py-2 rounded-lg mr-4 mt-4 active:scale-[.96]'>UpVote</button>
+                 <button className='bg-red-500 px-4 py-2 rounded-lg mr-4 mt-4 active:scale-[.96]'>DownVote</button>
+                 <button className='bg-blue-500 px-4 py-2 rounded-lg mr-4 mt-4 active:scale-[.96]'onClick={()=>resolve(comp._id)} >Resolve</button>
+             </div>
+             })}</h1>:<h2 className='bg-zinc-800 text-center p-2 rounded-xl'>No Complaints Yet</h2>}
+            
         </div>
     </div>
     </>
