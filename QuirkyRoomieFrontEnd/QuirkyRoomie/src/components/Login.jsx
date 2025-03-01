@@ -12,9 +12,19 @@ const Login = () => {
         e.preventDefault();
         axios.post('http://localhost:3000/api/auth/login',user)
         .then((res)=>{
-            // console.log(res)
-            if(res.data.success===true) navigate('/complaints')
-                else console.log('not found');
+            console.log(res.data.data.password)
+            if(res.data.success===true){
+                if(res.data.data.password==user.password){
+
+                    navigate('/complaints')
+                }
+                else{
+                    console.log('wrong credentials')
+                }
+            }
+                else{
+                    console.log('not found');
+                }
                 
         })
         .catch((err)=>{
@@ -24,6 +34,7 @@ const Login = () => {
     function inputhandler(e) {
         const { name, value } = e.target;
         setUser({ ...user, [name]: value })
+        
     }
     function openregister(){
         navigate('/')

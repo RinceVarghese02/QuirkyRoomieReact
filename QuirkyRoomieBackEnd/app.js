@@ -25,7 +25,7 @@ app.post('/api/auth/register', async function (req, res) {
     })
 
 
-    res.send(createduser)
+    res.send({user:createduser, token:createduser.generateToken()})
 })
 app.post('/api/auth/login', async function (req, res) {
 
@@ -51,9 +51,15 @@ app.post('/api/complaints', async function (req, res) {
     const createdcomplaints = await complaintModel.create({
         title, description, type, severity,
     })
+    .then((data)=>{
+        res.send({message:'Complaints created successfully!', success:true, complaints:data })
+    })
+    .catch((err)=>{
+        res.send({message:'Complaints retrieved unsuccessfully!', success:false })
+    })
 
 
-    res.send(createdcomplaints)
+    // res.send(createdcomplaints)
 })
 app.get('/api/complaints', async function (req, res) {
 
@@ -65,9 +71,19 @@ app.get('/api/complaints', async function (req, res) {
         res.send({message:'Complaints retrieved unsuccessfully!', success:false })
     })
 })
-app.get('/api/resolve', function (req, res) {
+app.get('/api/resolve', async function (req, res) {
 
     console.log(req.query.id)
+    let resolvedcomp= await complaintModel.findByIdAndDelete(req.query.id)
+    .then((data)=>{
+        res.send({message:'Complaints deleted successfully!', success:true, resolvedcomplaints:data })
+    })
+    .catch((err)=>{
+        res.send({message:'Complaints deletion unsuccessfully!', success:false })
+    })
+    // res.redirect('/complaints')
+    // console.log(resolvedcomp)
+    // res.send(resolvedcomp)
     
 })
 

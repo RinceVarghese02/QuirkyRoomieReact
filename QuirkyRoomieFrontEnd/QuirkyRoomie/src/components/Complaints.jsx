@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 const Complaints = () => {
     const navigate=useNavigate()
     const [allcomplaints,setallcomplaints]=useState([])
+    const [complaintresolved, setcomplaintresolved] = useState(false)
 
     function openleaderboards(){
         navigate('/leaderboards')
@@ -25,11 +26,33 @@ const Complaints = () => {
             console.log(err,'error')
         })
     },[])
+    useEffect(()=>{
+        axios.get('http://localhost:3000/api/complaints')
+        .then((res)=>{
+            // console.log(res.data.allcomplaints)
+            setallcomplaints(res.data.allcomplaints)
+        })
+        .catch((err)=>{
+            console.log(err,'error')
+        })
+    },[complaintresolved])
     console.log(allcomplaints)
 
     
     async function resolve(id){
-           await axios.get('http://localhost:3000/api/resolve',id)
+           await axios.get(`http://localhost:3000/api/resolve?id=${id}`,id)
+           .then((res)=>{
+            console.log('resolved',res.data.success)
+            if(res.data.success==true){
+                setcomplaintresolved(!complaintresolved)
+            }
+            else{
+                console.log('unsucessful')
+            }
+           })
+           .catch((err)=>{
+            console.log('something went wrong')
+           })
         }
 
   return (
