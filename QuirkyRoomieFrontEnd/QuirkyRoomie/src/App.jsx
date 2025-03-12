@@ -5,6 +5,7 @@ import Login from './components/Login'
 import Complaints from './components/Complaints'
 import LeaderBoards from './components/LeaderBoards'
 import NewComplaint from './components/NewComplaint'
+import AllUsers from './components/AllUsers'
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
       <Route path='/complaints' element={<Complaints/>} />
       <Route path='/newcomplaint' element={<NewComplaint/>} />
       <Route path='/leaderboards' element={<LeaderBoards/>} />
+      <Route path='/allusers' element={<AllUsers/>} />
     </Routes>
     </BrowserRouter>
     </>

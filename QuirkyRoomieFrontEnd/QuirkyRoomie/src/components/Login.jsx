@@ -2,30 +2,26 @@ import axios from 'axios';
 import React from 'react'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../store/Auth';
 
 const Login = () => {
 
     const navigate=useNavigate();
     const [user, setUser] = useState({})
+    const {storeTokenInLs}=useAuth()
 
     function submithandler(e) {
         e.preventDefault();
         axios.post('http://localhost:3000/api/auth/login',user)
         .then((res)=>{
-            console.log(res.data.data.password)
-            if(res.data.success===true){
-                if(res.data.data.password==user.password){
-
-                    navigate('/complaints')
-                }
-                else{
-                    console.log('wrong credentials')
-                }
+            // console.log(res.data.token)
+            if(res.data.success){
+                navigate('/complaints')
             }
-                else{
-                    console.log('not found');
-                }
-                
+            else{
+                console.log('Error')
+            }
+            storeTokenInLs(res.data.token)
         })
         .catch((err)=>{
             console.log(err,'err')

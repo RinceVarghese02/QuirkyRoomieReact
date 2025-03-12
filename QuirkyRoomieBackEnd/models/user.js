@@ -1,5 +1,6 @@
 const mongoose=require('mongoose')
 const jwt=require('jsonwebtoken')
+const bcrypt=require('bcrypt')
 
 const userSchema=mongoose.Schema({
     name:String,
@@ -12,6 +13,24 @@ const userSchema=mongoose.Schema({
         type:String,
     },
 });
+
+//bcrypt
+userSchema.pre('save',async function(next){
+    const user=this;
+    // console.log(user.password)
+    if(!user.isModified('password')){
+        next()
+    }
+    try {
+        const salt=await bcrypt.genSalt(10);
+        // console.log(salt)
+        const hash=await bcrypt.hash(user.password, salt);
+        // console.log(hash)
+        user.password=hash;
+    } catch (error) {
+        next(error)
+    }
+})
 
 //JsonWebToken
 userSchema.methods.generateToken = function(){
